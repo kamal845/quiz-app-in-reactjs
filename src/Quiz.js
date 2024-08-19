@@ -66,13 +66,34 @@ const Quiz = () => {
   ];
   const [currentQuestion,setCurrentQuestion]=useState(0);
   const [currentClickAnswer,setCurrentClickAnswer]=useState(null);
+  const [score,setScore]=useState(0);
+  const handleClick=(option)=>{
+    setCurrentClickAnswer(option)
+    if(option === questions[currentQuestion].answer){
+        setScore(score +1);
+    }
+  }
+  const nextQuestion=()=>{
+    setCurrentQuestion(currentQuestion + 1);
+    setCurrentClickAnswer(null);
+  }
   return (
-    <>
-      <h2>ReactJS Quiz App</h2>
-      {/* question list component mai props pass karenge question aur questions ek array hai*/}
-    <Questionlist question={questions[currentQuestion].question}
-    options={questions[currentQuestion].options}/>
-    <button>Next question</button>
+     <>
+      {currentQuestion < questions.length ? (
+        <>
+          <h2>ReactJS Quiz App</h2>
+          <Questionlist
+            question={questions[currentQuestion].question}
+            options={questions[currentQuestion].options}
+            handleClick={handleClick}
+            currentClickAnswer={currentClickAnswer}
+          />
+          <button onClick={nextQuestion}>Next Question</button>
+          <div>your score is {score}</div>
+        </>
+      ) : (
+        <h2>Quiz Complete</h2>
+      )}
     </>
   );
 };
